@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http'
 import * as Moment from 'moment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { extendMoment } from 'moment-range';
- 
+import { ToastrService } from 'ngx-toastr';
+import { TimeoutError } from 'rxjs';
+
 const moment = extendMoment(Moment);
 @Component({
   selector: 'app-root',
@@ -16,6 +18,7 @@ export class AppComponent {
     private http: HttpClient,
 
     private formBuilder: FormBuilder,
+    private toastr: ToastrService,
   ) {
     this.val = this.formBuilder.group({
       startDay: ['', Validators.required],
@@ -82,7 +85,7 @@ export class AppComponent {
     for (let i = 0; i <= diff; i++) {
       for (let hour of hours) {
         const date = moment(startDay).add(i, 'days').format(`yyyy-MM-DDT${hour}:00.0000`);
-        
+        const dateToastr = moment(startDay).add(i, 'days').format(`DD/MM/yyyy`);
         this.http.post('https://app2u.upcnet.es/marcatges/api/marcatge', {
           username: this.val.value.username,
           password: this.val.value.password,
@@ -90,6 +93,11 @@ export class AppComponent {
           state: hours.indexOf(hour) % 2 != 0
         }).subscribe(res => {
           console.log(res)
+          if (res['status'] === 'ok') {
+            this.toastr.success(`Marcatge ${hours.indexOf(hour) % 2 == 0 ? 'd\'entrada' : 'de sortida'} fet el ${dateToastr} a les ${hour}h`, 'Success!', {timeOut: 5000});
+          } else {
+            this.toastr.error(`Error en el marcatge ${hours.indexOf(hour) % 2 == 0 ? 'd\'entrada' : 'de sortida'} el ${dateToastr} a les ${hour}h`, `Error! (${res['error']})`, {timeOut: 5000});
+          }
         })
       }
     }
