@@ -1,0 +1,38 @@
+<form [formGroup]="val" (ngSubmit)="onSubmit()" id="checkin-form">
+  <h1>Check In bot</h1>
+  <h2>Range date to check in</h2>
+  <!-- <span>Start Day</span>
+  <input type="date" formControlName="startDay">
+  <span>End Day</span>
+  <input type="date" formControlName="endDay"> -->
+  <mat-label>Enter a date range</mat-label>
+  <mat-date-range-input [rangePicker]="picker">
+    <input matStartDate placeholder="Start date" formControlName="startDay">
+    <input matEndDate placeholder="End date" formControlName="endDay">
+  </mat-date-range-input>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-picker #picker></mat-date-range-picker>
+  <h2>Range hours to check in</h2>
+  <div formGroupName="time1">
+    <span>Entry time 1</span>
+    <input type="time" formControlName="entryTime">
+    <span>Left time 1</span>
+    <input type="time" formControlName="leftTime">
+  </div>
+  <p></p>
+  <div formGroupName="time2">
+    <span>Entry time 2</span>
+    <input type="time" formControlName="entryTime">
+    <span>Left time 2</span>
+    <input type="time" formControlName="leftTime">
+    *Left empty if you only want to fill a journal without breaks.
+  </div>
+  <h2>Credentials to do the check in</h2>
+  <span>Username</span>
+  <input type="text" formControlName="username">
+  <span>Password</span>
+  <input type="password" formControlName="password">
+  <p>*Each information provided is not stored anywhere</p>
+  <input type="submit" form="checkin-form" [disabled]=!val.valid>
+</form>
+<router-outlet></router-outlet>
