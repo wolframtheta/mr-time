@@ -1,7 +1,13 @@
 <div class="padding-t">
+  <div class="header">
+    <h1>Mr. Time</h1>
+    <span id="forkongithub">
+      <a href="https://github.com/wolframtheta/mr-time">Fork me on GitHub</a>
+    </span>
+    
+  </div>
+  <h2>Range date to check in</h2>
   <form [formGroup]="val" (ngSubmit)="onSubmit()" id="checkin-form">
-    <h1>Check In bot</h1>
-    <h2>Range date to check in</h2>
     <!-- <span>Start Day</span>
     <input type="date" formControlName="startDay">
     <span>End Day</span>
@@ -36,4 +42,5 @@
     <input type="submit" form="checkin-form" [disabled]=!val.valid>
   </form>
 </div>
+
 <router-outlet></router-outlet>
