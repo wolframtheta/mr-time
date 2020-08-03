@@ -13,14 +13,17 @@
   "dependencies": {
     "@angular/animations": "^10.0.4",
     "@angular/cdk": "^10.1.0",
+    "@angular/cli": "~10.0.3",
     "@angular/common": "~10.0.4",
     "@angular/compiler": "~10.0.4",
+    "@angular/compiler-cli": "~10.0.4",
     "@angular/core": "~10.0.4",
     "@angular/forms": "~10.0.4",
     "@angular/material": "^10.1.0",
     "@angular/platform-browser": "~10.0.4",
     "@angular/platform-browser-dynamic": "~10.0.4",
     "@angular/router": "~10.0.4",
+    "bulma": "^0.9.0",
     "express": "^4.17.1",
     "moment": "^2.27.0",
     "moment-range": "^4.0.2",
@@ -29,9 +32,7 @@
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",
     "typescript": "~3.9.5",
-    "zone.js": "~0.10.3",
-    "@angular/cli": "~10.0.3",
-    "@angular/compiler-cli": "~10.0.4"
+    "zone.js": "~0.10.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1000.3",

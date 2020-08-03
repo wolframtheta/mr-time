@@ -1,46 +1,133 @@
-<div class="padding-t">
-  <div class="header">
-    <h1>Mr. Time</h1>
-    <span id="forkongithub">
-      <a href="https://github.com/wolframtheta/mr-time">Fork me on GitHub</a>
-    </span>
-    
-  </div>
-  <h2>Range date to check in</h2>
-  <form [formGroup]="val" (ngSubmit)="onSubmit()" id="checkin-form">
-    <!-- <span>Start Day</span>
+<span id="forkongithub">
+  <a href="https://github.com/wolframtheta/mr-time">Fork me on GitHub</a>
+</span>
+<form [formGroup]="val" (ngSubmit)="onSubmit()" id="checkin-form">
+  <section class="hero is-info">
+    <div class="">
+      <div class="container">
+        <div class="columns is-centered px-5 py-5 is-vcentered">
+          <div class="column is-1"> <img src="../assets/mrtime.png" class="image"></div>
+          <div class="column">
+            <h1 class=" is-size-2  has-text-weight-bold">Mr. Time</h1>
+          </div>
+          <div class="column is-9 ">En aquesta pàgina podràs fer marcatges d'usuaris/àries tant d'IThinkUPC com de
+            UPCnet d'una manera més senzilla i ràpida que abans. Pots fer marcatges de més d'un dia a la vegada de
+            manera fàcil.</div>
+
+        </div>
+        <div class="columns is-centered box py-5 px-5">
+
+          <div class="column">
+
+            <h2 class="is-size-4 marginretoc"><span class="rodo">1</span>Dies de marcatge</h2>
+            <!-- <span>Start Day</span>
     <input type="date" formControlName="startDay">
     <span>End Day</span>
     <input type="date" formControlName="endDay"> -->
-    <mat-date-range-input [rangePicker]="picker">
-      <input matStartDate placeholder="Start date" formControlName="startDay">
-      <input matEndDate placeholder="End date" formControlName="endDay">
-    </mat-date-range-input>
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-date-range-picker #picker></mat-date-range-picker>
-    <h2>Range hours to check in</h2>
-    <div formGroupName="time1">
-      <span>Entry time 1</span>
-      <input type="time" formControlName="entryTime">
-      <span>Left time 1</span>
-      <input type="time" formControlName="leftTime">
-    </div>
-    <p></p>
-    <div formGroupName="time2">
-      <span>Entry time 2</span>
-      <input type="time" formControlName="entryTime">
-      <span>Left time 2</span>
-      <input type="time" formControlName="leftTime">
-      *Left empty if you only want to fill a journal without breaks.
-    </div>
-    <h2>Credentials to do the check in</h2>
-    <span>Username</span>
-    <input type="text" formControlName="username">
-    <span>Password</span>
-    <input type="password" formControlName="password">
-    <p>*Each information provided is not stored anywhere</p>
-    <input type="submit" form="checkin-form" [disabled]=!val.valid>
-  </form>
-</div>
+            <!--mat-date-range-input [rangePicker]="picker">
+              <input matStartDate placeholder="Start date" class="" formControlName="startDay">
+              <input matEndDate placeholder="End date" class="" formControlName="endDay">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker-->
+            <mat-calendar></mat-calendar>
+          </div>
+          <div class="column has-text-centered is-1">
 
+            <i class="material-icons md-48">keyboard_arrow_right</i>
+            <hr class="horizontalLine">
+          </div>
+          <div class="column">
+            <h2 class="is-size-4"><span class="rodo">2</span>Hores de marcatge</h2>
+            <div class="field">
+              <label class="vuit" for="switchRoundedInfo">Selecciona jornada: 8h</label><input id="switchRoundedInfo"
+                type="checkbox" name="switchRoundedInfo" class="switch is-rounded is-info" checked="checked">
+              <label for="switchRoundedInfo">7:30h</label>
+            </div>
+            <hr>
+            <div formGroupName="time1" class="field">
+              <h3 class="is-size-5">Matí</h3>
+              <div class="columns">
+                <div class="column">
+                  <label class="label">Hora d'entrada</label>
+                  <div class="control">
+                    <input type="time" class="input is-rounded" formControlName="entryTime">
+                  </div>
+                </div>
+
+                <div class="column">
+                  <label class="label">Hora de sortida</label>
+                  <div class="control">
+                    <input type="time" class="input is-rounded" formControlName="leftTime">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div formGroupName="time2" class="field">
+              <h3 class="is-size-5">Tarda*</h3>
+              <div class="columns">
+                <div class="column">
+                  <label class="label">Hora d'entrada</label>
+                  <div class="control">
+                    <input type="time" class="input is-rounded" formControlName="entryTime">
+                  </div>
+                </div>
+                <div class="column">
+                  <label class="label">Hora de sortida</label>
+                  <div class="control">
+                    <input type="time" class="input is-rounded" formControlName="leftTime">
+                  </div>
+                </div>
+              </div>
+              <p class="help">*Deixa-ho buit si només voleu omplir una jornada intesiva.</p>
+            </div>
+
+          </div>
+          <div class="column has-text-centered is-1">
+
+            <i class="material-icons md-48">keyboard_arrow_right</i>
+            <hr class="horizontalLine">
+          </div>
+          <div class="column validat">
+            <div class="item">
+              <h2 class="is-size-4"><span class="rodo">3</span>Valida't per fer el marcatge*</h2>
+
+
+              <div class="field">
+
+                <label class="label">Usuari/ària</label>
+                <div class="control">
+                  <input type="text" class="input is-rounded" formControlName="username">
+
+                  <p></p>
+                  <label class="label">Contrasenya</label>
+                  <div class="control">
+                    <input type="password" class="input is-rounded" formControlName="password">
+                  </div>
+
+                </div>
+                <br>
+                <p class="help">*La informació proporcionada no s’emmagatzema enlloc</p>
+                <br>
+              </div>
+            </div>
+            <div class="item">
+              <div class="buttons is-right item">
+                <input type="submit" class="button is-link is-medium is-rounded is-fullwidth" form="checkin-form"
+                  [disabled]=!val.valid>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</form>
+<footer class="footer">
+  <div class="content has-text-centered has-text-white">
+    © IThinkUPC i UPCnet | 2020</div>
+</footer>
 <router-outlet></router-outlet>
