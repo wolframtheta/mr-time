@@ -3,3 +3,9 @@
 html, body{ height: 100%; background-color: #3298dc!important;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #3298dc!important;}
 .mat-h1, .mat-headline, .mat-typography h1{margin-bottom: 0!important;}
+
+
+.nb-theme-default nb-layout .layout {
+    min-height: 0px!important;
+    background-color: white!important;
+}

@@ -1,7 +1,10 @@
+
+
+
 <span id="forkongithub">
   <a href="https://github.com/wolframtheta/mr-time">Fork me on GitHub</a>
 </span>
-<form [formGroup]="val" (ngSubmit)="onSubmit()" id="checkin-form">
+<form [formGroup]="val" (ngSubmit)="onSubmit($event)" id="checkin-form">
   <section class="hero is-info">
     <div class="">
       <div class="container">
@@ -30,7 +33,12 @@
             </mat-date-range-input>
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker-->
-            <mat-calendar></mat-calendar>
+            <!-- <mat-calendar></mat-calendar> -->
+            <nb-layout>
+              <nb-layout-column>
+                <nb-calendar-range [(range)]="range"></nb-calendar-range>
+              </nb-layout-column>
+            </nb-layout>
           </div>
           <div class="column has-text-centered is-1">
 
@@ -39,12 +47,21 @@
           </div>
           <div class="column">
             <h2 class="is-size-4"><span class="rodo">2</span>Hores de marcatge</h2>
+            <label class="vuit">Selecciona:</label>
             <div class="field">
-              <label class="vuit" for="switchRoundedInfo">Selecciona jornada: 8h</label><input id="switchRoundedInfo"
-                type="checkbox" name="switchRoundedInfo" class="switch is-rounded is-info" checked="checked">
+              <label class="vuit" for="switchRoundedInfo">hores: 8h</label>
+              <input id="switchRoundedInfo" type="checkbox" formControlName="hours" class="switch is-rounded is-info" (ngModelChange)=changeHours($event)>
               <label for="switchRoundedInfo">7:30h</label>
             </div>
+            <div class="field">
+              <label class="vuit" for="switchRoundedInfo2">tipus: intensiva</label>
+              <input id="switchRoundedInfo2" type="checkbox" formControlName="type" class="switch is-rounded is-info"  (ngModelChange)=changeType($event)>
+              <label for="switchRoundedInfo2">normal</label>
+            </div>
+            <input type="button" class="button is-link is-medium is-rounded is-fullwidth" (click)="wholeWeek()" value="Setmana sencera">
+            <input type="button" class="button is-link is-medium is-rounded is-fullwidth" (click)="saveSettings()" value="Guardar horaris">
             <hr>
+
             <div formGroupName="time1" class="field">
               <h3 class="is-size-5">Matí</h3>
               <div class="columns">
@@ -115,7 +132,7 @@
             <div class="item">
               <div class="buttons is-right item">
                 <input type="submit" class="button is-link is-medium is-rounded is-fullwidth" form="checkin-form"
-                  [disabled]=!val.valid>
+                  [disabled]=!val.valid (click)="onSubmit(true)">
               </div>
             </div>
 
@@ -131,5 +148,3 @@
     © IThinkUPC i UPCnet | 2020</div>
 </footer>
 <router-outlet></router-outlet>
-
-<!-- <nb-calendar-range [(range)]="range"></nb-calendar-range> -->

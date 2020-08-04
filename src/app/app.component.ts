@@ -13,7 +13,34 @@ const moment = extendMoment(Moment);
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
+  hoursRelatedType = {
+    schedule8normal: {
+      entryTime1: '09:00',
+      leftTime1: '14:00',
+      entryTime2: '15:00',
+      leftTime2: '18:30'
+    },
+    schedule8intensive: {
+      entryTime1: '09:00',
+      leftTime1: '17:30'
+    },
+    schedule730normal: {
+      entryTime1: '09:00',
+      leftTime1: '14:00',
+      entryTime2: '15:00',
+      leftTime2: '18:00'
+    },
+    schedule730intensive: {
+      entryTime1: '09:00',
+      leftTime1: '17:00'
+    },
+    scheduleFridays: {
+      entryTime1: '09:00',
+      leftTime1: '14:00'
+    }
+  }
   title = 'checkin-bot';
   range: NbCalendarRange<Date>;
   constructor(
@@ -23,8 +50,8 @@ export class AppComponent {
     private toastr: ToastrService,
   ) {
     this.val = this.formBuilder.group({
-      startDay: ['', Validators.required],
-      endDay: ['', Validators.required],
+      hours: [true],
+      type: [true],
       time1: this.formBuilder.group({
         entryTime: ['', Validators.required],
         leftTime: ['', Validators.required]
@@ -40,6 +67,41 @@ export class AppComponent {
       start: moment().toDate(),
       end: moment().toDate(),
     };
+    if (this.val.value['type']) {
+      this.val.patchValue({
+        time1: {
+          entryTime: '09:00',
+          leftTime: '14:00',
+        },
+        time2: {
+          entryTime: '15:00',
+          leftTime: '18:00',
+        }
+      })
+    } else {
+      this.val.patchValue({
+        time1: {
+          entryTime: '09:00',
+          leftTime: '17:00',
+        },
+      });
+    }
+  }
+
+  ngOnInit() {
+    const hours = localStorage.getItem('hours')
+    if (this.val) {
+      this.val.patchValue({
+        time1: {
+          entryTime: JSON.parse(hours).time1.entryTime,
+          leftTime: JSON.parse(hours).time1.leftTime
+        },
+        time2: {
+          entryTime: JSON.parse(hours).time2.entryTime,
+          leftTime: JSON.parse(hours).time2.leftTime
+        },
+      })
+    }
   }
   val: FormGroup;
   hours = [];
@@ -73,39 +135,158 @@ export class AppComponent {
     }
   }
 
-  onSubmit() {
-    console.log(this.val.value)
-    const startDay = moment(this.val.value.startDay, 'YYYY-MM-DD');
-    const endDay = moment(this.val.value.endDay, 'YYYY-MM-DD');
-    const range = moment.range(startDay, endDay);
-    console.log(range.diff('days'))
-    const hours = [
-      this.val.value.time1.entryTime, 
-      this.val.value.time1.leftTime, 
-    ]
-    if (this.val.value.time2.entryTime !== '' && this.val.value.time2.leftTime !== '') {
-      hours.push(this.val.value.time2.entryTime);
-      hours.push(this.val.value.time2.leftTime);
-    } 
-    let diff = range.diff('days')
-    for (let i = 0; i <= diff; i++) {
-      for (let hour of hours) {
-        const date = moment(startDay).add(i, 'days').format(`yyyy-MM-DDT${hour}:00.0000`);
-        const dateToastr = moment(startDay).add(i, 'days').format(`DD/MM/yyyy`);
-        this.http.post('https://app2u.upcnet.es/marcatges/api/marcatge', {
-          username: this.val.value.username,
-          password: this.val.value.password,
-          date,
-          state: hours.indexOf(hour) % 2 != 0
-        }).subscribe(res => {
-          console.log(res)
-          if (res['status'] === 'ok') {
-            this.toastr.success(`Marcatge ${hours.indexOf(hour) % 2 == 0 ? 'd\'entrada' : 'de sortida'} fet el ${dateToastr} a les ${hour}h`, 'Success!', {timeOut: 5000});
-          } else {
-            this.toastr.error(`Error en el marcatge ${hours.indexOf(hour) % 2 == 0 ? 'd\'entrada' : 'de sortida'} el ${dateToastr} a les ${hour}h`, `Error! (${res['error']})`, {timeOut: 5000});
+  onSubmit(event) {
+    if (event === true) {
+      console.log(this.val.value, this.range)
+      const startDay = moment(this.range.start, 'YYYY-MM-DD');
+      const endDay = moment(this.range.end, 'YYYY-MM-DD');
+      const range = moment.range(startDay, endDay);
+      console.log(range.diff('days'))
+      const hours = [
+        this.val.value.time1.entryTime, 
+        this.val.value.time1.leftTime, 
+      ]
+      if (this.val.value.time2.entryTime !== '' && this.val.value.time2.leftTime !== '') {
+        hours.push(this.val.value.time2.entryTime);
+        hours.push(this.val.value.time2.leftTime);
+      } 
+      let diff = range.diff('days')
+      for (let i = 0; i <= diff; i++) {
+        for (let hour of hours) {
+          const date = moment(startDay).add(i, 'days').format(`yyyy-MM-DDT${hour}:00.0000`);
+          const dateToastr = moment(startDay).add(i, 'days').format(`DD/MM/yyyy`);
+          this.http.post('https://app2u.upcnet.es/marcatges/api/marcatge', {
+            username: this.val.value.username,
+            password: this.val.value.password,
+            date,
+            state: hours.indexOf(hour) % 2 != 0
+          }).subscribe(res => {
+            console.log(res)
+            if (res['status'] === 'ok') {
+              this.toastr.success(`Marcatge ${hours.indexOf(hour) % 2 == 0 ? 'd\'entrada' : 'de sortida'} fet el ${dateToastr} a les ${hour}h`, 'Success!', {timeOut: 5000});
+            } else {
+              this.toastr.error(`Error en el marcatge ${hours.indexOf(hour) % 2 == 0 ? 'd\'entrada' : 'de sortida'} el ${dateToastr} a les ${hour}h`, `Error! (${res['error']})`, {timeOut: 5000});
+            }
+          })
+        }
+      }
+    }
+  }
+
+  changeHours(event) {
+    if (event) {
+      if (this.val.value['type']) {
+        this.val.patchValue({
+          time1: {
+            entryTime: this.hoursRelatedType.schedule730normal.entryTime1,
+            leftTime: this.hoursRelatedType.schedule730normal.leftTime1,
+          },
+          time2: {
+            entryTime: this.hoursRelatedType.schedule730normal.entryTime2,
+            leftTime: this.hoursRelatedType.schedule730normal.leftTime2,
+          }
+        })
+      } else {
+        this.val.patchValue({
+          time1: {
+            entryTime: this.hoursRelatedType.schedule730intensive.entryTime1,
+            leftTime: this.hoursRelatedType.schedule730intensive.leftTime1,
+          },
+          time2: {
+            entryTime: '',
+            leftTime: '',
+          }
+        })
+      }
+    } else {
+      if (this.val.value['type']) {
+        this.val.patchValue({
+          time1: {
+            entryTime: this.hoursRelatedType.schedule8normal.entryTime1,
+            leftTime: this.hoursRelatedType.schedule8normal.leftTime1,
+          },
+          time2: {
+            entryTime: this.hoursRelatedType.schedule8normal.entryTime2,
+            leftTime: this.hoursRelatedType.schedule8normal.leftTime2,
+          }
+        })
+      } else {
+        this.val.patchValue({
+          time1: {
+            entryTime: this.hoursRelatedType.schedule8intensive.entryTime1,
+            leftTime: this.hoursRelatedType.schedule8intensive.leftTime1,
+          },
+          time2: {
+            entryTime: '',
+            leftTime: '',
           }
         })
       }
     }
+
+  }
+  changeType(event) {
+    if (event) {
+      if (this.val.value['hours']) {
+        this.val.patchValue({
+          time1: {
+            entryTime: this.hoursRelatedType.schedule730normal.entryTime1,
+            leftTime: this.hoursRelatedType.schedule730normal.leftTime1,
+          },
+          time2: {
+            entryTime: this.hoursRelatedType.schedule730normal.entryTime2,
+            leftTime: this.hoursRelatedType.schedule730normal.leftTime2,
+          }
+        })
+      } else {
+        this.val.patchValue({
+          time1: {
+            entryTime: this.hoursRelatedType.schedule8normal.entryTime1,
+            leftTime: this.hoursRelatedType.schedule8normal.leftTime1,
+          },
+          time2: {
+            entryTime: this.hoursRelatedType.schedule8normal.entryTime2,
+            leftTime: this.hoursRelatedType.schedule8normal.leftTime2,
+          }
+        })
+      }
+    } else {
+      if (this.val.value['hours']) {
+        this.val.patchValue({
+          time1: {
+            entryTime: this.hoursRelatedType.schedule730intensive.entryTime1,
+            leftTime: this.hoursRelatedType.schedule730intensive.leftTime1,
+          },
+          time2: {
+            entryTime: '',
+            leftTime: '',
+          }
+        })
+      } else {
+        this.val.patchValue({
+          time1: {
+            entryTime: this.hoursRelatedType.schedule8intensive.entryTime1,
+            leftTime: this.hoursRelatedType.schedule8intensive.leftTime1,
+          },
+          time2: {
+            entryTime: '',
+            leftTime: '',
+          }
+        })
+      }
+    }
+  }
+
+  saveSettings() {
+    const hours = {
+      time1: this.val.value['time1'] ? this.val.value['time1'] : '',
+      time2: this.val.value['time2'] ? this.val.value['time2'] : ''
+    }
+    localStorage.setItem('hours', JSON.stringify(hours));
+    this.toastr.success('Els horaris s\'han guardat a la memoria cache del navegador correctament.', 'Horaris guardats!')
+  }
+
+  wholeWeek() {
+    console.log('week')
   }
 }
