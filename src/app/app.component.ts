@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { extendMoment } from 'moment-range';
 import { ToastrService } from 'ngx-toastr';
 import { TimeoutError } from 'rxjs';
+import { NbCalendarRange } from '@nebular/theme';
 
 const moment = extendMoment(Moment);
 @Component({
@@ -14,6 +15,7 @@ const moment = extendMoment(Moment);
 })
 export class AppComponent {
   title = 'checkin-bot';
+  range: NbCalendarRange<Date>;
   constructor(
     private http: HttpClient,
 
@@ -34,6 +36,10 @@ export class AppComponent {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+    this.range = {
+      start: moment().toDate(),
+      end: moment().toDate(),
+    };
   }
   val: FormGroup;
   hours = [];
