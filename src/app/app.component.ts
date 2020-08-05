@@ -70,27 +70,20 @@ export class AppComponent {
     if (!this.val.value['type']) {
       this.val.patchValue({
         time1: {
-          entryTime: '09:00',
-          leftTime: '14:00',
+          entryTime: this.hoursRelatedType.schedule8normal.entryTime1,
+          leftTime: this.hoursRelatedType.schedule8normal.leftTime1,
         },
         time2: {
-          entryTime: '15:00',
-          leftTime: '18:00',
+          entryTime: this.hoursRelatedType.schedule8normal.entryTime2,
+          leftTime: this.hoursRelatedType.schedule8normal.leftTime2,
         }
       })
-    } else {
-      this.val.patchValue({
-        time1: {
-          entryTime: '09:00',
-          leftTime: '17:00',
-        },
-      });
     }
   }
 
   ngOnInit() {
     const hours = localStorage.getItem('hours')
-    if (this.val) {
+    if (this.val && hours) {
       this.val.patchValue({
         time1: {
           entryTime: JSON.parse(hours).time1.entryTime,
@@ -227,7 +220,7 @@ export class AppComponent {
   }
   changeType(event) {
     if (!event) {
-      if (!this.val.value['hours']) {
+      if (this.val.value['hours']) {
         this.val.patchValue({
           time1: {
             entryTime: this.hoursRelatedType.schedule730normal.entryTime1,
@@ -251,7 +244,7 @@ export class AppComponent {
         })
       }
     } else {
-      if (!this.val.value['hours']) {
+      if (this.val.value['hours']) {
         this.val.patchValue({
           time1: {
             entryTime: this.hoursRelatedType.schedule730intensive.entryTime1,
@@ -287,6 +280,6 @@ export class AppComponent {
   }
 
   wholeWeek() {
-    console.log('week')
+    this.toastr.warning('Aquesta funcio encara no s\'ha acabat d\'implementar. Haureu d\'esperar una mica :)', 'No implementat!')
   }
 }
