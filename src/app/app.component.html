@@ -8,21 +8,21 @@
   <section class="hero is-info">
     <div class="">
       <div class="container">
-        <div class="columns is-centered px-5 py-5 is-vcentered">
+        <div class="columns is-centered px-5 pb-1 pt-3 is-vcentered">
           <div class="column is-1"> <img src="../assets/mrtime.png" class="image"></div>
           <div class="column">
-            <h1 class=" is-size-2  has-text-weight-bold">Mr. Time</h1>
+            <h1 class=" is-size-2 has-text-white  has-text-weight-bold">Mr. Time</h1>
           </div>
           <div class="column is-9 ">En aquesta pàgina podràs fer marcatges d'usuaris/àries tant d'IThinkUPC com de
             UPCnet d'una manera més senzilla i ràpida que abans. Pots fer marcatges de més d'un dia a la vegada de
             manera fàcil.</div>
 
         </div>
-        <div class="columns is-centered box py-5 px-5">
+        <div class="columns is-centered box py-5 px-5  canvicol1">
 
           <div class="column">
 
-            <h2 class="is-size-4 marginretoc"><span class="rodo">1</span>Dies de marcatge</h2>
+            <h2 class="is-size-4"><span class="rodo">1</span>Dies de marcatge</h2>
             <!-- <span>Start Day</span>
     <input type="date" formControlName="startDay">
     <span>End Day</span>
@@ -45,21 +45,22 @@
             <i class="material-icons md-48">keyboard_arrow_right</i>
             <hr class="horizontalLine">
           </div>
-          <div class="column">
+          <div class="column validat">
+            <div class="item">
             <h2 class="is-size-4"><span class="rodo">2</span>Hores de marcatge</h2>
-            <label class="vuit">Selecciona:</label>
+            <!--label class="vuit">Selecciona:</label-->
+            <div class="buttons switchs">
             <div class="field">
-              <label class="vuit" for="switchRoundedInfo">hores: 8h</label>
+           
               <input id="switchRoundedInfo" type="checkbox" formControlName="hours" class="switch is-rounded is-info" (ngModelChange)=changeHours($event)>
               <label for="switchRoundedInfo">7:30h</label>
             </div>
             <div class="field">
-              <label class="vuit" for="switchRoundedInfo2">tipus: intensiva</label>
+             
               <input id="switchRoundedInfo2" type="checkbox" formControlName="type" class="switch is-rounded is-info"  (ngModelChange)=changeType($event)>
-              <label for="switchRoundedInfo2">normal</label>
+              <label for="switchRoundedInfo2">Intensiva</label>
             </div>
-            <input type="button" class="button is-link is-medium is-rounded is-fullwidth" (click)="wholeWeek()" value="Setmana sencera">
-            <input type="button" class="button is-link is-medium is-rounded is-fullwidth" (click)="saveSettings()" value="Guardar horaris">
+          </div>
             <hr>
 
             <div formGroupName="time1" class="field">
@@ -82,7 +83,7 @@
             </div>
             <br>
             <div formGroupName="time2" class="field">
-              <h3 class="is-size-5">Tarda*</h3>
+              <h3 class="is-size-5">Tarda</h3>
               <div class="columns">
                 <div class="column">
                   <label class="label">Hora d'entrada</label>
@@ -97,9 +98,15 @@
                   </div>
                 </div>
               </div>
-              <p class="help">*Deixa-ho buit si només voleu omplir una jornada intesiva.</p>
+              <!--p class="help">*Deixa-ho buit si només vols omplir una jornada intesiva.</p-->
             </div>
-
+          </div>
+          <div class="item">
+            <div class="buttons switchs">
+              <input type="button" class="button is-info is-light is-rounded" (click)="wholeWeek()" value="Setmana sencera">
+              <input type="button" class="button is-info is-light is-rounded" (click)="saveSettings()" value="Guardar horaris">
+            </div>
+          </div>
           </div>
           <div class="column has-text-centered is-1">
 
@@ -108,7 +115,7 @@
           </div>
           <div class="column validat">
             <div class="item">
-              <h2 class="is-size-4"><span class="rodo">3</span>Valida't per fer el marcatge*</h2>
+              <h2 class="is-size-4"><span class="rodo">3</span>Valida't*</h2>
 
 
               <div class="field">
@@ -131,7 +138,7 @@
             </div>
             <div class="item">
               <div class="buttons is-right item">
-                <input type="submit" class="button is-link is-medium is-rounded is-fullwidth" form="checkin-form"
+                <input type="submit" class="button is-link is-rounded is-fullwidth" form="checkin-form"
                   [disabled]=!val.valid (click)="onSubmit(true)">
               </div>
             </div>

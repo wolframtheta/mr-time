@@ -84,7 +84,7 @@ input[type="checkbox"], input[type="radio"] {
     height: 1.5rem;
     border: 0.1rem solid transparent;
     border-radius: 4px;
-    background: #2b3a55;
+    background: #b5b5b5;
     content: '';
 }
 .switch[type="checkbox"].is-info:checked+label::before, .switch[type="checkbox"].is-info:checked+label:before {
@@ -169,6 +169,16 @@ h1 {
 
 */
 
+
+.buttons.switchs {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.field:not(:last-child) {
+    margin-bottom: 0!important;
+}
 
 
 @media screen and (min-width:200px){

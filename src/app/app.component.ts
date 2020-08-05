@@ -50,8 +50,8 @@ export class AppComponent {
     private toastr: ToastrService,
   ) {
     this.val = this.formBuilder.group({
-      hours: [true],
-      type: [true],
+      hours: [false],
+      type: [false],
       time1: this.formBuilder.group({
         entryTime: ['', Validators.required],
         leftTime: ['', Validators.required]
@@ -67,7 +67,7 @@ export class AppComponent {
       start: moment().toDate(),
       end: moment().toDate(),
     };
-    if (this.val.value['type']) {
+    if (!this.val.value['type']) {
       this.val.patchValue({
         time1: {
           entryTime: '09:00',
@@ -175,7 +175,7 @@ export class AppComponent {
 
   changeHours(event) {
     if (event) {
-      if (this.val.value['type']) {
+      if (!this.val.value['type']) {
         this.val.patchValue({
           time1: {
             entryTime: this.hoursRelatedType.schedule730normal.entryTime1,
@@ -199,7 +199,7 @@ export class AppComponent {
         })
       }
     } else {
-      if (this.val.value['type']) {
+      if (!this.val.value['type']) {
         this.val.patchValue({
           time1: {
             entryTime: this.hoursRelatedType.schedule8normal.entryTime1,
@@ -226,8 +226,8 @@ export class AppComponent {
 
   }
   changeType(event) {
-    if (event) {
-      if (this.val.value['hours']) {
+    if (!event) {
+      if (!this.val.value['hours']) {
         this.val.patchValue({
           time1: {
             entryTime: this.hoursRelatedType.schedule730normal.entryTime1,
@@ -251,7 +251,7 @@ export class AppComponent {
         })
       }
     } else {
-      if (this.val.value['hours']) {
+      if (!this.val.value['hours']) {
         this.val.patchValue({
           time1: {
             entryTime: this.hoursRelatedType.schedule730intensive.entryTime1,

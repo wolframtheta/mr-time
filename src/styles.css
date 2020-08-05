@@ -1,11 +1,74 @@
 /* You can add global styles to this file, and also import other style files */
 
+
 html, body{ height: 100%; background-color: #3298dc!important;}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #3298dc!important;}
 .mat-h1, .mat-headline, .mat-typography h1{margin-bottom: 0!important;}
 
 
-.nb-theme-default nb-layout .layout {
+.nb-theme-custom-theme nb-layout .layout {
     min-height: 0px!important;
     background-color: white!important;
 }
+
+
+.nb-theme-custom-theme nb-layout .layout .layout-container .content .columns nb-layout-column {
+    padding-top: 0!important;
+}
+
+.nb-theme-custom-theme nb-base-calendar nb-card {
+    background-color: transparent!important;
+    border: 0px!important;
+  /*  width: 100%!important;*/
+}
+
+/*hr {
+    height: 1px!important;
+}*/
+
+.nb-theme-custom-theme nb-calendar-picker .day-cell {
+    width: 2.77rem!important;
+}
+
+
+@media screen and (min-width: 769px) {
+    .canvicol1 .column.is-1,  .canvicol1 .column.is-1-tablet {
+    width: 6.33333%!important;
+    }
+}
+
+
+.nb-theme-custom-theme nb-calendar-picker .range-cell.in-range.selected:not(.disabled):not(.empty).start {
+    border-top-left-radius: 50%!important;
+    border-bottom-left-radius: 50% !important;
+}
+
+.nb-theme-custom-theme nb-calendar-picker .range-cell.in-range.selected:not(.disabled):not(.empty).end {
+    border-top-right-radius: 50px!important;
+    border-bottom-right-radius: 50px!important;
+}
+
+.nb-theme-custom-theme nb-calendar-picker .cell-content {
+    border-radius: 4rem!important;
+}
+
+.nb-theme-custom-theme nb-calendar-picker .day-cell:not(.disabled):not(.empty).today.selected, .nb-theme-custom-theme nb-calendar-picker .month-cell:not(.disabled):not(.empty).today.selected, .nb-theme-custom-theme nb-calendar-picker .year-cell:not(.disabled):not(.empty).today.selected {
+    border-radius: 4rem!important;
+}
+
+.nb-theme-custom-theme nb-calendar-picker .range-cell.in-range.selected:not(.disabled):not(.empty) {
+    border-radius: 0!important;
+}
+
+.nb-theme-custom-theme nb-calendar-picker .day-cell:not(.disabled):not(.empty).today.selected .cell-content, .nb-theme-custom-theme nb-calendar-picker .month-cell:not(.disabled):not(.empty).today.selected .cell-content, .nb-theme-custom-theme nb-calendar-picker .year-cell:not(.disabled):not(.empty).today.selected .cell-content {
+    background-color: rgba(255, 255, 255, 0.1)!important;
+}
+
+.nb-theme-custom-theme nb-calendar-picker .day-cell, .nb-theme-custom-theme nb-calendar-picker .month-cell, .nb-theme-custom-theme nb-calendar-picker .year-cell {
+    font-family: Roboto, "Helvetica Neue", sans-serif!important;
+    font-size: 1rem!important;
+    font-weight: 500!important;
+}
+
+#forkongithub a{background:#fdcd2a!important;}
+#forkongithub a:hover{background:#e1af06!important;}
