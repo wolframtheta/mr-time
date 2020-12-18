@@ -147,20 +147,22 @@ export class AppComponent {
       for (let i = 0; i <= diff; i++) {
         for (let hour of hours) {
           const date = moment(startDay).add(i, 'days').format(`yyyy-MM-DDT${hour}:00.0000`);
-          const dateToastr = moment(startDay).add(i, 'days').format(`DD/MM/yyyy`);
-          this.http.post('https://app2u.upcnet.es/marcatges/api/marcatge', {
-            username: this.val.value.username,
-            password: this.val.value.password,
-            date,
-            state: hours.indexOf(hour) % 2 != 0
-          }).subscribe(res => {
-            console.log(res)
-            if (res['status'] === 'ok') {
-              this.toastr.success(`Marcatge ${hours.indexOf(hour) % 2 == 0 ? 'd\'entrada' : 'de sortida'} fet el ${dateToastr} a les ${hour}h`, 'Success!', {timeOut: 5000});
-            } else {
-              this.toastr.error(`Error en el marcatge ${hours.indexOf(hour) % 2 == 0 ? 'd\'entrada' : 'de sortida'} el ${dateToastr} a les ${hour}h`, `Error! (${res['error']})`, {timeOut: 5000});
-            }
-          })
+          if (moment(date).isoWeekday() !== 6 && moment(date).isoWeekday() !== 7) {
+            const dateToastr = moment(startDay).add(i, 'days').format(`DD/MM/yyyy`);
+            this.http.post('https://app2u.upcnet.es/marcatges/api/marcatge', {
+              username: this.val.value.username,
+              password: this.val.value.password,
+              date,
+              state: hours.indexOf(hour) % 2 != 0
+            }).subscribe(res => {
+              console.log(res)
+              if (res['status'] === 'ok') {
+                this.toastr.success(`Marcatge ${hours.indexOf(hour) % 2 == 0 ? 'd\'entrada' : 'de sortida'} fet el ${dateToastr} a les ${hour}h`, 'Success!', {timeOut: 5000});
+              } else {
+                this.toastr.error(`Error en el marcatge ${hours.indexOf(hour) % 2 == 0 ? 'd\'entrada' : 'de sortida'} el ${dateToastr} a les ${hour}h`, `Error! (${res['error']})`, {timeOut: 5000});
+              }
+            })
+          }
         }
       }
     }
